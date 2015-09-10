@@ -1,39 +1,43 @@
 #include <iostream>
-
+#include <ctime>
 #include <chrono>
 #include <random>
 #include <array>
+#include <iomanip>
 
 using namespace std;
 
+static const int size_a = 1000;
 
-int linearSearch(array<int, 1000> a, int toFind) {
+int linearSearch(array<int, size_a> a) {
 	
-	for (int i = 0; i < 1000; i++) {
-		if (a[i] == toFind) {
-			return i;
+	int min = INT16_MAX;
+
+	for (int i = 0; i < size_a; i++) {
+		
+		if (a[i] < min) {
+			min = a[i];
 		}
 	}
-	return -1;
+	return min;
 }
 
 
 int main() {
-	array<int, 1000> a;
-
-	int guess;
+	array<int, size_a> a;
 	srand(time(NULL));                      // инициализация функции rand значением функции time
-	for (int i = 0; i < 1000; i++) {
-		a[i] = rand() % 1000 + 1;                 // сгенерировать секретное число
+	for (int i = 0; i < size_a; i++) {
+		a[i] = rand() % size_a + 10;                 // сгенерировать секретное число
 	}
 	
-	auto res = linearSearch(a, 3);
-	if (res != -1) {
-		cout << res;
-	}
-	else {
-		cout << "Didn't found your element in a";
-	}
+	clock_t time;
+	time = clock();
+	auto mytime = (float)time / CLOCKS_PER_SEC;
+	auto res = linearSearch(a);
+	cout << res << endl;
+	time = clock() - time;
+	float itsthetime = (float)time / CLOCKS_PER_SEC;
+	cout << setprecision(40) << itsthetime << endl;
  	getchar();
 	return 0;
 }
